@@ -1,0 +1,38 @@
+<!-- Shared navbar fragment — include in every page with:
+     <div th:replace="~{fragments/layout :: navbar}"></div> -->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/dashboard}">🏥 RAMS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/patients}">Patients</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/doctors}">Doctors</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/nurses}">Nurses</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/resources}">Resources</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/appointments}">Appointments</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/treatments}">Treatments</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/departments}">Departments</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Quick Actions</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/setup}">Setup Test Data</a></li>
+                        <li><a class="dropdown-item" th:href="@{/allocate}">Allocate Treatment</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/h2-console}" target="_blank">H2 Console</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="post" class="d-flex">
+                <button class="btn btn-outline-light btn-sm" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

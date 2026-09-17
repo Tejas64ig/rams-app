@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RAMS - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container py-3">
+    <h2 class="mb-4">🏥 Hospital Dashboard</h2>
+    <div class="row g-3">
+        <!-- Patients -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Patients</h5>
+                    <h2 th:text="${totalPatients}">0</h2>
+                    <a th:href="@{/patients}" class="text-white small">Manage &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Doctors -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Doctors</h5>
+                    <h2 th:text="${totalDoctors}">0</h2>
+                    <a th:href="@{/doctors}" class="text-white small">Manage &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Nurses -->
+        <div class="col-md-3">
+            <div class="card text-white bg-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Nurses</h5>
+                    <h2 th:text="${totalNurses}">0</h2>
+                    <a th:href="@{/nurses}" class="text-white small">Manage &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Departments -->
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Departments</h5>
+                    <h2 th:text="${totalDepartments}">0</h2>
+                    <a th:href="@{/departments}" class="text-white small">Manage &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Resources -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Resources</h5>
+                    <p class="mb-1">Total: <strong th:text="${totalResources}">0</strong></p>
+                    <p class="mb-1 text-success">Available: <strong th:text="${availableResources}">0</strong></p>
+                    <p class="mb-0 text-danger">Allocated: <strong th:text="${allocatedResources}">0</strong></p>
+                    <a th:href="@{/resources}" class="small">Manage &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Appointments -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Appointments</h5>
+                    <p class="mb-1">Total: <strong th:text="${totalAppointments}">0</strong></p>
+                    <p class="mb-0 text-success">Confirmed: <strong th:text="${confirmedAppointments}">0</strong></p>
+                    <a th:href="@{/appointments}" class="small">View &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <!-- Treatments -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Treatments</h5>
+                    <h2 th:text="${totalTreatments}">0</h2>
+                    <a th:href="@{/treatments}" class="small">View &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Quick Actions</h5>
+                    <a th:href="@{/setup}" class="btn btn-outline-primary me-2">Setup Test Data</a>
+                    <a th:href="@{/allocate}" class="btn btn-outline-success">Allocate Treatment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

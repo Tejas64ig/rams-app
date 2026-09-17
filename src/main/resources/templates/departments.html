@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RAMS - Departments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div class="container py-3">
+    <h2>Department Management</h2>
+    <form th:action="@{/departments}" method="post" class="row g-2 mb-4">
+        <div class="col-md-4"><input type="text" class="form-control" name="name" placeholder="Department Name" required></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100" type="submit">Add Department</button></div>
+    </form>
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Name</th><th>Doctors</th><th>Resources</th><th>Actions</th></tr></thead>
+        <tbody>
+        <tr th:each="d : ${departments}">
+            <td th:text="${d.departmentId}"></td>
+            <td th:text="${d.name}"></td>
+            <td th:text="${d.doctors.size()}"></td>
+            <td th:text="${d.resources.size()}"></td>
+            <td>
+                <form th:action="@{'/departments/' + ${d.departmentId} + '/delete'}" method="post" style="display:inline">
+                    <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Delete?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p th:if="${#lists.isEmpty(departments)}" class="text-muted">No departments registered yet.</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
