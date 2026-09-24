@@ -60,6 +60,7 @@ public class DataInitializer implements CommandLineRunner {
 
         if (!shouldLoadTestData) {
             System.out.println("\n✅ Starting with empty database. You can add data through the UI.");
+            System.out.println("💡 Visit http://localhost:8080/test-data to load test data anytime.");
             return;
         }
 
@@ -67,6 +68,9 @@ public class DataInitializer implements CommandLineRunner {
         loadSampleData();
     }
 
+    /**
+     * Check if test data should be loaded based on config or user input
+     */
     private boolean shouldLoadTestData() {
         // First check the configuration property
         if (loadTestDataFromConfig) {
@@ -97,7 +101,10 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    private void loadSampleData() {
+    /**
+     * Public method to load sample data - can be called programmatically
+     */
+    public void loadSampleData() {
         // ──────────────── Hospital ────────────────
         Hospital hospital = new Hospital();
         hospital.setName("City Multi-Speciality Hospital");
