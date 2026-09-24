@@ -4,7 +4,7 @@
 
 ### For Multi-Speciality Hospitals
 
-[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Java](https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white)](https://www.thymeleaf.org/)
@@ -93,7 +93,7 @@ A centralized web-based platform that automates and optimizes the allocation of 
 
 | Layer | Technology |
 |-------|-----------|
-| **Backend** | Java 17, Spring Boot 3.3.4 |
+| **Backend** | Java 25, Spring Boot 3.3.4 |
 | **Security** | Spring Security 6 (BCrypt, form login) |
 | **Database** | MySQL 8.0 (H2 in-memory also supported) |
 | **ORM** | Spring Data JPA / Hibernate |
@@ -136,7 +136,7 @@ Notifiable (interface) ← Doctor, Nurse
 
 | Requirement | Version |
 |------------|---------|
-| ☕ Java JDK | 17+ |
+| ☕ Java JDK | 25 |
 | 🐬 MySQL | 8.0+ |
 | 📦 Maven | 3.9+ |
 

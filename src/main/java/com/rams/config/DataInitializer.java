@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * Loads sample hospital data on every startup (H2 resets each run).
+ * Loads sample hospital data on every startup.
  * Covers all modules from the SRS: patients, doctors, nurses,
  * departments, resources, appointments, and treatments.
  */

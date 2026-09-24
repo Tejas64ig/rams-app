@@ -62,9 +62,10 @@ class TreatmentAllocationServiceTest {
 
     @Test
     void returnsResourceNotFound_whenNoMatchingResourceExists() {
-        // No "ICU Bed" resource created for this test — mirrors the [else] branch.
+        String missingResourceType = "RESOURCE_TYPE_NOT_PRESENT_IN_SAMPLE_DATA";
+
         AllocationResult result = allocationService.allocateTreatment(
-                patientId, doctorId, "Knee Surgery", "ICU Bed");
+                patientId, doctorId, "Knee Surgery", missingResourceType);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("resourceNotFound"));
