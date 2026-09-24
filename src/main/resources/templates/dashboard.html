@@ -2,100 +2,425 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAMS - Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #0ba360 0%, #3cba92 100%);
+            --danger-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --secondary-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: var(--primary-gradient) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--primary-gradient);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-header h1 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            font-weight: 800;
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            color: #6c757d;
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            transition: height 0.3s ease;
+        }
+
+        .stat-card.primary::before { background: var(--primary-gradient); }
+        .stat-card.success::before { background: var(--success-gradient); }
+        .stat-card.info::before { background: var(--info-gradient); }
+        .stat-card.secondary::before { background: var(--secondary-gradient); }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card:hover::before {
+            height: 8px;
+        }
+
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .stat-card.primary .stat-icon { background: var(--primary-gradient); box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3); }
+        .stat-card.success .stat-icon { background: var(--success-gradient); box-shadow: 0 8px 20px rgba(11, 163, 96, 0.3); }
+        .stat-card.info .stat-icon { background: var(--info-gradient); box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3); }
+        .stat-card.secondary .stat-icon { background: var(--secondary-gradient); box-shadow: 0 8px 20px rgba(168, 237, 234, 0.3); }
+
+        .stat-card h5 {
+            color: #6c757d;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-card a:hover {
+            gap: 10px;
+            color: #764ba2;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: none;
+            height: 100%;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .detail-card h5 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .stat-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .stat-detail:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out backwards;
+        }
+
+        .action-card h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .btn-gradient-success {
+            background: var(--success-gradient);
+            box-shadow: 0 5px 15px rgba(11, 163, 96, 0.3);
+        }
+
+        .btn-gradient-success:hover {
+            box-shadow: 0 10px 25px rgba(11, 163, 96, 0.4);
+        }
+
+        .btn-gradient-warning {
+            background: var(--warning-gradient);
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.3);
+        }
+
+        .btn-gradient-warning:hover {
+            box-shadow: 0 10px 25px rgba(250, 112, 154, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            .stat-card h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
-<div th:replace="~{fragments/layout :: navbar}"></div>
-<div class="container py-3">
-    <h2 class="mb-4">🏥 Hospital Dashboard</h2>
-    <div class="row g-3">
-        <!-- Patients -->
-        <div class="col-md-3">
-            <div class="card text-white bg-primary shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Patients</h5>
+<body>
+    <!-- Navbar -->
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <div class="container mt-5">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="bi bi-hospital-fill"></i> Hospital Dashboard</h1>
+            <p>Real-time overview of hospital resources and operations</p>
+        </div>
+
+        <!-- Main Statistics -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card primary">
+                    <div class="stat-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <h5>Total Patients</h5>
                     <h2 th:text="${totalPatients}">0</h2>
-                    <a th:href="@{/patients}" class="text-white small">Manage &rarr;</a>
+                    <a th:href="@{/patients}">Manage Patients <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
-        </div>
-        <!-- Doctors -->
-        <div class="col-md-3">
-            <div class="card text-white bg-success shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Doctors</h5>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card success">
+                    <div class="stat-icon">
+                        <i class="bi bi-person-badge-fill"></i>
+                    </div>
+                    <h5>Total Doctors</h5>
                     <h2 th:text="${totalDoctors}">0</h2>
-                    <a th:href="@{/doctors}" class="text-white small">Manage &rarr;</a>
+                    <a th:href="@{/doctors}">Manage Doctors <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
-        </div>
-        <!-- Nurses -->
-        <div class="col-md-3">
-            <div class="card text-white bg-info shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Nurses</h5>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card info">
+                    <div class="stat-icon">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <h5>Total Nurses</h5>
                     <h2 th:text="${totalNurses}">0</h2>
-                    <a th:href="@{/nurses}" class="text-white small">Manage &rarr;</a>
+                    <a th:href="@{/nurses}">Manage Nurses <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
-        </div>
-        <!-- Departments -->
-        <div class="col-md-3">
-            <div class="card text-white bg-secondary shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Departments</h5>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card secondary">
+                    <div class="stat-icon">
+                        <i class="bi bi-building-fill"></i>
+                    </div>
+                    <h5>Departments</h5>
                     <h2 th:text="${totalDepartments}">0</h2>
-                    <a th:href="@{/departments}" class="text-white small">Manage &rarr;</a>
+                    <a th:href="@{/departments}">Manage Departments <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
-        <!-- Resources -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Resources</h5>
-                    <p class="mb-1">Total: <strong th:text="${totalResources}">0</strong></p>
-                    <p class="mb-1 text-success">Available: <strong th:text="${availableResources}">0</strong></p>
-                    <p class="mb-0 text-danger">Allocated: <strong th:text="${allocatedResources}">0</strong></p>
-                    <a th:href="@{/resources}" class="small">Manage &rarr;</a>
+
+        <!-- Detailed Statistics -->
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4">
+                <div class="detail-card">
+                    <h5><i class="bi bi-gear-fill"></i> Resources</h5>
+                    <div class="stat-detail">
+                        <span><i class="bi bi-stack"></i> Total</span>
+                        <strong th:text="${totalResources}">0</strong>
+                    </div>
+                    <div class="stat-detail" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 40%);">
+                        <span><i class="bi bi-check-circle-fill text-success"></i> Available</span>
+                        <strong class="text-success" th:text="${availableResources}">0</strong>
+                    </div>
+                    <div class="stat-detail" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 40%);">
+                        <span><i class="bi bi-x-circle-fill text-danger"></i> Allocated</span>
+                        <strong class="text-danger" th:text="${allocatedResources}">0</strong>
+                    </div>
+                    <a th:href="@{/resources}" class="btn btn-gradient w-100 mt-3">
+                        <i class="bi bi-gear"></i> Manage Resources
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="detail-card">
+                    <h5><i class="bi bi-calendar-check-fill"></i> Appointments</h5>
+                    <div class="stat-detail">
+                        <span><i class="bi bi-calendar3"></i> Total</span>
+                        <strong th:text="${totalAppointments}">0</strong>
+                    </div>
+                    <div class="stat-detail" style="background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 40%);">
+                        <span><i class="bi bi-check-circle-fill text-success"></i> Confirmed</span>
+                        <strong class="text-success" th:text="${confirmedAppointments}">0</strong>
+                    </div>
+                    <div class="stat-detail" style="background: linear-gradient(135deg, #fff9b0 0%, #ffe88d 40%);">
+                        <span><i class="bi bi-clock-fill text-warning"></i> Pending</span>
+                        <strong class="text-warning" th:text="${totalAppointments - confirmedAppointments}">0</strong>
+                    </div>
+                    <a th:href="@{/appointments}" class="btn btn-gradient w-100 mt-3">
+                        <i class="bi bi-calendar-check"></i> View Appointments
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="detail-card">
+                    <h5><i class="bi bi-clipboard-pulse-fill"></i> Treatments</h5>
+                    <div class="stat-detail">
+                        <span><i class="bi bi-clipboard-pulse"></i> Total Treatments</span>
+                        <strong th:text="${totalTreatments}">0</strong>
+                    </div>
+                    <div class="stat-detail" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 40%);">
+                        <span><i class="bi bi-activity"></i> Active</span>
+                        <strong th:text="${totalTreatments}">0</strong>
+                    </div>
+                    <a th:href="@{/treatments}" class="btn btn-gradient w-100 mt-3">
+                        <i class="bi bi-clipboard-pulse"></i> View Treatments
+                    </a>
                 </div>
             </div>
         </div>
-        <!-- Appointments -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Appointments</h5>
-                    <p class="mb-1">Total: <strong th:text="${totalAppointments}">0</strong></p>
-                    <p class="mb-0 text-success">Confirmed: <strong th:text="${confirmedAppointments}">0</strong></p>
-                    <a th:href="@{/appointments}" class="small">View &rarr;</a>
-                </div>
-            </div>
-        </div>
-        <!-- Treatments -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Treatments</h5>
-                    <h2 th:text="${totalTreatments}">0</h2>
-                    <a th:href="@{/treatments}" class="small">View &rarr;</a>
-                </div>
+
+        <!-- Quick Actions -->
+        <div class="action-card">
+            <h5><i class="bi bi-lightning-charge-fill"></i> Quick Actions</h5>
+            <div class="d-flex flex-wrap gap-3">
+                <a th:href="@{/test-data}" class="btn btn-gradient">
+                    <i class="bi bi-database-gear"></i> Test Data Management
+                </a>
+                <a th:href="@{/allocate}" class="btn btn-gradient-success">
+                    <i class="bi bi-plus-circle-fill"></i> Allocate Treatment
+                </a>
+                <a th:href="@{/patients}" class="btn btn-gradient-warning">
+                    <i class="bi bi-person-plus-fill"></i> Add New Patient
+                </a>
             </div>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>Quick Actions</h5>
-                    <a th:href="@{/setup}" class="btn btn-outline-primary me-2">Setup Test Data</a>
-                    <a th:href="@{/allocate}" class="btn btn-outline-success">Allocate Treatment</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div class="mb-5"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
