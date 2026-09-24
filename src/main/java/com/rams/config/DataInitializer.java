@@ -2,18 +2,23 @@ package com.rams.config;
 
 import com.rams.entity.*;
 import com.rams.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 /**
- * Loads sample hospital data on every startup.
+ * Loads sample hospital data on startup based on configuration.
  * Covers all modules from the SRS: patients, doctors, nurses,
  * departments, resources, appointments, and treatments.
  */
 @Component
 public class DataInitializer implements CommandLineRunner {
+
+    @Value("${rams.load-test-data:false}")
+    private boolean loadTestDataFromConfig;
 
     private final HospitalRepository hospitalRepository;
     private final DepartmentRepository departmentRepository;
@@ -44,7 +49,55 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Check if data already exists
+        if (hospitalRepository.count() > 0) {
+            System.out.println("\n⚠️  Database already contains data. Skipping test data initialization.");
+            return;
+        }
 
+        // Check configuration or prompt user
+        boolean shouldLoadTestData = shouldLoadTestData();
+
+        if (!shouldLoadTestData) {
+            System.out.println("\n✅ Starting with empty database. You can add data through the UI.");
+            return;
+        }
+
+        System.out.println("\n🔄 Loading test data...");
+        loadSampleData();
+    }
+
+    private boolean shouldLoadTestData() {
+        // First check the configuration property
+        if (loadTestDataFromConfig) {
+            System.out.println("\n📋 Test data loading enabled in configuration (rams.load-test-data=true)");
+            return true;
+        }
+
+        // If not enabled in config, prompt user
+        System.out.println("\n" + "=".repeat(80));
+        System.out.println("🗂️  TEST DATA INITIALIZATION");
+        System.out.println("=".repeat(80));
+        System.out.println("Would you like to load sample test data?");
+        System.out.println("(1 hospital, 5 departments, 5 doctors, 5 nurses, 7 patients, 16 resources, etc.)");
+        System.out.println();
+        System.out.println("Options:");
+        System.out.println("  [Y/y] - Yes, load test data");
+        System.out.println("  [N/n] - No, start with empty database");
+        System.out.println("=".repeat(80));
+        System.out.print("Your choice (Y/N): ");
+
+        try {
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine().trim().toLowerCase();
+            return input.equals("y") || input.equals("yes");
+        } catch (Exception e) {
+            System.out.println("\n⚠️  Could not read input. Starting with empty database.");
+            return false;
+        }
+    }
+
+    private void loadSampleData() {
         // ──────────────── Hospital ────────────────
         Hospital hospital = new Hospital();
         hospital.setName("City Multi-Speciality Hospital");
@@ -135,7 +188,7 @@ public class DataInitializer implements CommandLineRunner {
         n3.attendPatient(p4);
         nurseRepository.save(n3);
 
-        System.out.println("✅ Sample data loaded: 1 hospital, 5 departments, 5 doctors, 5 nurses, 7 patients, 16 resources, 7 appointments, 5 treatments");
+        System.out.println("\n✅ Sample data loaded: 1 hospital, 5 departments, 5 doctors, 5 nurses, 7 patients, 16 resources, 7 appointments, 5 treatments\n");
     }
 
     // ──────────────── Helper methods ────────────────
